@@ -6,7 +6,6 @@ env:
     DOCKER_TOKEN: dockerhub-token
     AWS_DEFAULT_REGION: region
     AWS_ACCOUNT_ID: account-id
-    IMAGE1_URI: image1
     IMAGE2_URI: image2
     IMAGE_TAG: image-tag
 
@@ -19,19 +18,11 @@ phases:
       - echo $DOCKER_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
   build:
     commands:
-      - echo Building the nginx Docker image...
-      - docker build -t nginx -f nginx/ecs_Dockerfile .
-      - docker tag nginx:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
-
       - echo Building the python Docker image...
       - docker build -t python -f nginx/ecs_Dockerfile .
       - docker tag python:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
   post_build:
     commands:
-      - echo Pushing the nginx Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
-      - echo complete to push nginx...
-
       - echo Pushing the python Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
       - echo complete to push python...
