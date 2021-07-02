@@ -39,4 +39,4 @@ phases:
       # - cat taskdef.json
 artifacts:
   files:
-    - imageDetail.json
+    - python_imageDetail.json

@@ -39,4 +39,4 @@ phases:
       # - cat taskdef.json
 artifacts:
   files:
-    - imageDetail.json
+    - nginx_imageDetail.json
