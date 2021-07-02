@@ -1,0 +1,42 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DOCKERHUB_USER: dockerhub-user
+    DOCKER_TOKEN: dockerhub-token
+    AWS_DEFAULT_REGION: region
+    AWS_ACCOUNT_ID: account-id
+    IMAGE1_URI: image1
+    IMAGE2_URI: image2
+    IMAGE_TAG: image-tag
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - echo Logging in to Docker Hub...
+      - echo $DOCKER_TOKEN | docker login -u $DOCKERHUB_USER --password-stdin
+  build:
+    commands:
+      - echo Building the nginx Docker image...
+      - docker build -t nginx -f nginx/ecs_Dockerfile .
+      - docker tag nginx:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
+
+      - echo Building the python Docker image...
+      - docker build -t python -f nginx/ecs_Dockerfile .
+      - docker tag python:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
+  post_build:
+    commands:
+      - echo Pushing the nginx Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
+      - echo complete to push nginx...
+
+      - echo Pushing the python Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
+      - echo complete to push python...
+      # - cat taskdef-production-template.json | sed -e s@\<IMAGE1_NAME\>@$IMAGE1_URI:$IMAGE_TAG@ -e s@\<IMAGE2_NAME\>@$IMAGE2_URI:$IMAGE_TAG@ > taskdef.json
+      # - cat taskdef.json
+artifacts:
+  files:
+    - imageDetail.json

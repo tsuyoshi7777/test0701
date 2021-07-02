@@ -35,9 +35,8 @@ phases:
       - echo Pushing the python Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
       - echo complete to push python...
-      - cat taskdef-production-template.json | sed -e s@\<IMAGE1_NAME\>@$IMAGE1_URI:$IMAGE_TAG@ -e s@\<IMAGE2_NAME\>@$IMAGE2_URI:$IMAGE_TAG@ > taskdef.json
-      - cat taskdef.json
+      # - cat taskdef-production-template.json | sed -e s@\<IMAGE1_NAME\>@$IMAGE1_URI:$IMAGE_TAG@ -e s@\<IMAGE2_NAME\>@$IMAGE2_URI:$IMAGE_TAG@ > taskdef.json
+      # - cat taskdef.json
 artifacts:
   files:
-    - appspec.yaml
-    - taskdef.json
+    - imageDetail.json
