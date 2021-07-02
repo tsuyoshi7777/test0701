@@ -20,14 +20,15 @@ phases:
     commands:
       - echo Building the nginx Docker image...
       - docker build -t nginx -f nginx/ecs_Dockerfile .
-      - docker tag nginx:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
+      - docker tag nginx:$IMAGE_TAG $IMAGE1_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Pushing the nginx Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/nginx:latest
+      - docker push $IMAGE1_URI:$IMAGE_TAG
       - echo complete to push nginx...
       # - cat taskdef-production-template.json | sed -e s@\<IMAGE1_NAME\>@$IMAGE1_URI:$IMAGE_TAG@ -e s@\<IMAGE2_NAME\>@$IMAGE2_URI:$IMAGE_TAG@ > taskdef.json
       # - cat taskdef.json
+      - printf '{"Version":"1.0","ImageURI":"%s"}' $IMAGE1_URI:$IMAGE_TAG > imageDetail.json
 artifacts:
   files:
     - imageDetail.json

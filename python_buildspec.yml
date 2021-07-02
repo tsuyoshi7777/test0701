@@ -19,15 +19,16 @@ phases:
   build:
     commands:
       - echo Building the python Docker image...
-      - docker build -t python -f nginx/ecs_Dockerfile .
-      - docker tag python:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
+      - docker build -t python -f python/ecs_Dockerfile .
+      - docker tag python:$IMAGE_TAG $IMAGE2_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Pushing the python Docker image...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/python:latest
+      - docker push $IMAGE2_URI:$IMAGE_TAG
       - echo complete to push python...
       # - cat taskdef-production-template.json | sed -e s@\<IMAGE1_NAME\>@$IMAGE1_URI:$IMAGE_TAG@ -e s@\<IMAGE2_NAME\>@$IMAGE2_URI:$IMAGE_TAG@ > taskdef.json
       # - cat taskdef.json
+      - printf '{"Version":"1.0","ImageURI":"%s"}' $IMAGE2_URI:$IMAGE_TAG > imageDetail.json
 artifacts:
   files:
     - imageDetail.json
