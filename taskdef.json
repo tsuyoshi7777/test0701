@@ -2,7 +2,7 @@
     "executionRoleArn": "arn:aws:iam::823104559115:role/ecsTaskExecutionRole",
     "containerDefinitions": [
         {
-          "name": "nginx",
+          "name": "sample-website",
           "image": "<IMAGE1_NAME>",
           "essential": true,
           "logConfiguration": {
@@ -22,7 +22,7 @@
           ]
         },
         {
-          "name": "python",
+          "name": "sample-website2",
           "image": "<IMAGE2_NAME>",
           "essential": true,
           "logConfiguration": {
