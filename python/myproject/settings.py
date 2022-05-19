@@ -139,6 +139,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 WEBPACK_LOADER = {
     'DEFAULT': {
-        'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, 'nginx', 'webpack-stats.json'),
     }
 }
