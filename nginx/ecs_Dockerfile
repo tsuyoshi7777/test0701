@@ -1,10 +1,10 @@
 FROM node:lts-alpine as build-stage
 
 WORKDIR /fargate_django
-COPY /frontend/package*.json ./
+COPY /nginx/package*.json ./
 RUN npm install \
   && apk add bash
-COPY /frontend /fargate_django
+COPY /nginx /fargate_django
 RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
@@ -14,7 +14,7 @@ RUN mkdir -p /volumes
 COPY . /volumes
 VOLUME ["/volumes"]
 
-COPY /frontend /fargate_django
+COPY /nginx /fargate_django
 COPY /nginx/conf /etc/nginx/conf.d
 COPY /nginx/uwsgi_params /etc/nginx/uwsgi_params
 
