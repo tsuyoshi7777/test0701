@@ -9,7 +9,7 @@ def db_list():
     con = MySQLdb.connect(
             user='admin',
             passwd='t19871027',
-            host='database-1.cqdaaoulhur2.ap-northeast-1.rds.amazonaws.com',
+            host='terraform-rds.cqdaaoulhur2.ap-northeast-1.rds.amazonaws.com',
             db='first',
             charset="utf8")
 
@@ -35,7 +35,7 @@ def db_save(x):
     con = MySQLdb.connect(
             user='admin',
             passwd='t19871027',
-            host='database-1.cqdaaoulhur2.ap-northeast-1.rds.amazonaws.com',
+            host='terraform-rds.cqdaaoulhur2.ap-northeast-1.rds.amazonaws.com',
             db='first',
             charset="utf8")
 
@@ -48,7 +48,7 @@ def db_save(x):
     ''')
 
     param = (x[3], x[0])
-    
+
     cur.execute(sql, param)
 
     con.commit()
