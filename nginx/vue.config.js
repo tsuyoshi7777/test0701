@@ -5,7 +5,7 @@ const DEPLOYMENT_PATH = './dist/'
 
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ? DEPLOYMENT_PATH : 'http://localhost:8080/',
-    outputDir: '../jobs/static/dist',
+    outputDir: "./dist/",
 
     devServer: {
         public: 'localhost:8080',
